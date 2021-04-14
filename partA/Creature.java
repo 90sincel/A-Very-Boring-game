@@ -30,9 +30,11 @@ public class Creature {
     public String getName(){
         return name;
     }
+
     public static int getNumStillAlive(){
         return numStillAlive;
     }
+
     public void setHealthUnit(int x){
         this.healthUnits = x;
     }
@@ -87,6 +89,7 @@ public class Creature {
         return this.dateCreated;
     }
     private void died(){
+        numStillAlive -= 1;
         Date dateDied = new Date();
         this.dateDied = dateDied;
     }
@@ -130,14 +133,16 @@ public class Creature {
         if (attackerFireUnits > 0){
             int healthSwap = (int) Math.round(attackedHealth/2.0);
             int foodSwap = (int) Math.round(attackedFood/2.0);
+
             player.setHealthUnit(attackedHealth - healthSwap);
             player.setFoodUnit(attackedFood - foodSwap);
+            player.normalizeUnits();
 
             this.setHealthUnit(attackerHealth + healthSwap);
             this.setFoodUnit((attackerFood + foodSwap));
             this.reduceFirePowerUnits(2);
-
             this.normalizeUnits();
+
             player.healthFoodUnitsZero();
             if(player.healthFoodUnitsZero()){
                 System.out.println(player.getName()+" has left us, look at what you did "+this.getName());
@@ -149,7 +154,8 @@ public class Creature {
 
 
     public String toString(){//displays date of birth
-        String fancyPrint = " "+this.dateCreated;
+        String fancyPrint = this.foodUnits+" spicy meatballs, "+this.healthUnits+" abs, "+this.firePowerUnits+
+                " fuego units...";
         return fancyPrint;
     }
 
@@ -181,43 +187,13 @@ public class Creature {
         foodUnits = (int) (Math.random() * 12)+1;//( rand int 0-11 ) + 1 cast to an integer...
         healthUnits = (int) (Math.random() * 7)+1;
         firePowerUnits = (int) (Math.random() * 10)+1;
-        normalizeUnits();
+        this.normalizeUnits();
 
     }
 
 
 static class CreatureTestDrive {
-        public static void main(String[] args){
-            Creature p1 = new Creature("Bob");
-            Creature p2 = new Creature("Jared");
-            String bobName = p1.getName();
-            String jaredName = p2.getName();
-            Date bornP1 = p1.dateCreated;
-            Date bornP2 = p2.dateCreated;
 
-            System.out.println(p1.toString());
-            p1.showStatus();
-            System.out.println(p2.toString());
-            p2.showStatus();
-
-            /*
-            int food = p1.getFoodUnits();
-            int health = p1.getHealthUnits();
-            int fire = p1.getFirePowerUnits();
-            System.out.println(bobName + " > Food: "+food+"\tHealth: "+health+"\tFirePower: "+fire+"\tborn"+bornP1);
-
-
-            int food2 = p2.getFoodUnits();
-            int health2 = p2.getHealthUnits();
-            int fire2 = p2.getFirePowerUnits();
-            System.out.println(jaredName + " > Food: "+food2+"\tHealth: "+health2+"\tFirePower: "+fire2+ "\tborn: "+bornP2);
-
-            p1.attacking(p2);
-            p1.attacking(p2);
-            System.out.println(bobName+"\t"+p1.getFoodUnits()+"\t"+ p1.getHealthUnits()+"\t"+p1.getFirePowerUnits());
-            System.out.println(jaredName+"\t"+p2.getHealthUnits()+"\t"+p2.getFoodUnits());
-            System.out.println(p2.getDateDied());
-            */
     }
 }
-}
+
