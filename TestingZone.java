@@ -3,6 +3,8 @@ import partA.Creature;
 import java.util.Scanner;
 public class TestingZone {
 
+
+
     public static void main(String[] args){
         Scanner keyIn = new Scanner(System.in);
         Creature[] players = {new Creature("jeremy"),new Creature("kyle"), new Creature("alabaster"),
@@ -87,9 +89,11 @@ public class TestingZone {
                             }
                         }while (!makesSense);
                         int youFeelinLucky = (int) (Math.random() * 3)+1;
+                        boolean hasPower1 = players[starterP].getFirePowerUnits() >= 2;
+                        boolean hasPower2 = players[attacked].getFirePowerUnits() >= 2;
 
-                        if(youFeelinLucky == 3 && players[attacked].getFirePowerUnits() >= 2){
-
+                        if(youFeelinLucky < 3 && hasPower1){
+                            /*
                             players[attacked].attacking(players[starterP]);
                             System.out.println("Well someone shouldn't gamble!");
                             System.out.println("Before attacking: "+statsBefore);
@@ -101,8 +105,10 @@ public class TestingZone {
                                 System.out.println(players[starterP].getName()+" is still kickin!");
                             }System.out.println();
 
-                        }else if (youFeelinLucky < 3 && players[starterP].getFirePowerUnits() >=2){
+                             */
 
+                        }else if (youFeelinLucky == 3 && hasPower2){//player loses gamble and gets attacked
+                            /*
                             players[starterP].attacking(players[attacked]);
                             System.out.println("Impressive, you beat the 1/3 odd ( heavy sarcasm )");
                             System.out.println("Before attacking: "+statsBefore);
@@ -114,7 +120,12 @@ public class TestingZone {
                                 System.out.println(players[attacked].getName()+" is still kickin!");
                             }System.out.println();
 
-                        }else{
+                             */
+
+                        }else if( !hasPower1 && hasPower2 ){//player gets attacked by opponent if he doesn't have the fuego
+
+                        }
+                        else{
                             System.out.println("No fuego units!!! You both are a huge let down, check your stats next time!");
                         }
 
